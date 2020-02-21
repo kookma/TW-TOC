@@ -1,0 +1,40 @@
+created: 20200129072515692
+modified: 20200221150235144
+tags: $:/tags/Stylesheet
+title: $:/plugins/kookma/toc/styles/olist
+type: text/css
+
+.kk-toc svg{
+  fill: #acacac;
+}
+
+.kk-toc ol {
+  list-style-type: none;
+  padding-left:0;
+}
+.kk-toc  ol ol{
+  list-style-type: none;
+  padding-left:2em;
+}
+
+/* bold first level entry and normal weight for other levels */
+.kk-toc li    .tc-tiddlylink{font-weight: bold;}
+.kk-toc ol ol .tc-tiddlylink{font-weight:normal;}
+
+/* selected or clicked item */
+.kk-toc-opened-item{
+ font-weight: bold;
+}
+
+/* prevent wrapping long entries*/
+.kk-toc-item  { text-align:left; white-space:nowrap; }
+
+/* for small toc more actions */
+.kk-toc-item       .kk-toc-tools {opacity:0; float:right}
+.kk-toc-item:hover .kk-toc-tools {opacity:1;}
+
+/* set color of links when toc is used in a sidebar tab*/
+.tc-sidebar-lists .kk-toc-item .tc-tiddlylink{color:#999999}
+
+
+

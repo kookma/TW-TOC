@@ -1,0 +1,8 @@
+created: 20200220082105852
+modified: 20200221110808956
+tags: $:/tags/Macro/Toc
+title: $:/plugins/kookma/toc/macros/helper
+type: text/vnd.tiddlywiki
+
+\define tidSelectedItem() $:/temp/multilevel/toc/selected-item/$(stateTiddler)$
+\define tidToggleState()  $:/temp/multilevel/toc/toggle/$(stateTiddler)$

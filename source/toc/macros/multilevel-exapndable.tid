@@ -1,0 +1,84 @@
+created: 20200129100032272
+modified: 20200221144310588
+tags: $:/tags/Macro/Toc
+title: $:/plugins/kookma/toc/macros/multilevel-exapndable
+type: text/vnd.tiddlywiki
+
+\define show-single-item(item)
+<$set name="openItemClass" filter="[<tidSelectedItem>get[text]match<__item__>]" value="tc-btn-invisible kk-toc-opened-item" emptyValue="tc-btn-invisible tc-tiddlylink">
+<span class="kk-toc-item">
+<$button class=<<openItemClass>> style="outline:none;" to=<<__item__>> dragTiddler=<<__item__>>>
+  <$view tiddler=<<__item__>> field="caption">
+    <$view tiddler=<<__item__>> field="title"></$view>
+  </$view>
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<__item__>> />  
+</$button>
+<span class="kk-toc-tools">{{$item$||$:/plugins/kookma/toc/template/more-actions}}</span>
+</span>
+</$set>
+\end 
+
+
+\define toc-slider(here, exclude)
+<$list filter="""[tag[$here$]] $exclude$ +[limit[1]]""" emptyMessage="""<li style="padding-left:1.2em"><$macrocall $name=show-single-item item=<<__here__>> /></li>""" variable=ignore>
+<li>
+<$reveal type="nomatch" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
+  <$button class="tc-btn-invisible tc-tiddlylink" setTitle=<<tidToggleState>> setIndex=<<__here__>> setTo="yes">
+   {{$:/core/images/right-arrow}}
+  </$button>
+ </$reveal>
+ <$reveal type="match" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
+  <$button class="tc-btn-invisible tc-tiddlylink" setTitle=<<tidToggleState>> setIndex=<<__here__>> setTo="no">
+   {{$:/core/images/down-arrow}}
+  </$button>
+ </$reveal>
+<$macrocall $name=show-single-item item=<<__here__>> />
+</li>
+<$reveal type="match" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
+<ol>
+<$list filter="""[tag[$here$]] $exclude$""" emptyMessage="""<li><$macrocall $name=show-single-item item=<<currentTiddler>> /></li>""">
+<$macrocall $name=toc-slider here=<<currentTiddler>> exclude="""$exclude$ -[[$here$]]"""/>
+</$list>
+</ol>
+</$reveal>
+\end
+
+
+\define toc-tree(here,exclude)
+<div class="kk-toc">
+<ol>
+<$list filter="""[tag[$here$]] $exclude$ -[[$here$]]""">
+<$macrocall $name=toc-slider here=<<currentTiddler>> exclude="""$exclude$ -[[$here$]]"""/>
+</$list>
+</ol>
+</div>
+\end
+
+
+\define toc-expand(here,exclude)
+<$list filter="""[tag[$here$]] $exclude$ -[[$here$]]""">
+   <$action-setfield $tiddler=<<tidToggleState>>  $index=<<currentTiddler>> $value="yes"/>
+   <$macrocall $name="toc-expand" here=<<currentTiddler>> exclude="""$exclude$ -[[$here$]]"""/>
+</$list>
+\end
+
+
+\define toc-expand-all(here, exclude)
+<$button tooltip="Expand all" class="tc-btn-invisible kk-toc" style="outline:none;">{{$:/core/images/unfold-button}}
+<$macrocall $name="toc-expand" here=<<__here__>> exclude=<<__exclude__>> />
+</$button>
+\end
+
+\define toc-collapse-all()
+<$button tooltip="collapse all" class="tc-btn-invisible kk-toc" style="outline:none;">{{$:/core/images/fold-button}}
+<$action-deletetiddler $tiddler=<<tidToggleState>> />
+</$button>
+\end
+
+\define multilevel-toc-expandable(tag:"TableOfContents", exclude:"", stateTiddler:"multilevelState")
+<$set name=stateTiddler value=<<__stateTiddler__>> >
+<$macrocall $name="toc-expand-all" here=<<__tag__>> exclude=<<__exclude__>> />
+<$macrocall $name="toc-collapse-all" />
+<$macrocall $name=toc-tree here=<<__tag__>> exclude=<<__exclude__>> />
+</$set>
+\end

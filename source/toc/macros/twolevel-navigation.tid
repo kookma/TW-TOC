@@ -1,0 +1,49 @@
+created: 20200220082243485
+modified: 20200221110436246
+tags: $:/tags/Macro/Toc
+title: $:/plugins/kookma/toc/macros/twolevel-navigation
+type: text/vnd.tiddlywiki
+
+\define twolevel-toc-list(here, exclude)
+<$list filter="""[tag[$here$]] $exclude$"""> 
+<$text text="[["/><<currentTiddler>><$text text="]]"/>
+  <$list filter="""[tag<currentTiddler>] $exclude$""">
+    <$text text="[["/><<currentTiddler>><$text text="]]"/>
+  </$list>
+</$list>
+\end
+
+\define twolevel-toc-hierarchical-navigation(tag:"", class, close:"no")
+<$wikify name="all" text="""<$macrocall $name="twolevel-toc-list" here=<<__tag__>> />""">
+<$vars  prev={{{ [enlist<all>before<currentTiddler>] }}} >
+<$vars  next={{{ [enlist<all>after<currentTiddler>]  }}}  >
+<div class="$class$">
+<$list filter="[<prev>!is[missing]]" variable="prevTiddler">
+<$button to=<<prevTiddler>> tooltip=<<prevTiddler>> class="tc-btn-invisible $class$">previous
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<prevTiddler>> />  
+<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
+</$button>
+</$list>
+<$list filter="[<next>!is[missing]] [<prev>!is[missing]] +[count[]] -1 -0" variable=ignore>|</$list>
+<$list filter="[<next>!is[missing]]" variable="nextTiddler">
+<$button to=<<nextTiddler>> tooltip=<<nextTiddler>> class="tc-btn-invisible $class$">next
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<nextTiddler>> />  
+<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
+</$button>
+</$list>
+</div>
+</$vars>
+</$vars>
+</$wikify>
+\end
+
+\define twolevel-toc-navigation(tag, close:"no", class:"", stateTiddler:"twolevelState")
+<$set name=stateTiddler value=<<__stateTiddler__>> >
+<$list filter="[<currentTiddler>!is[system]]">
+   <div class="kk-twolevel-toc-hideForPrint">
+     <$macrocall $name=twolevel-toc-hierarchical-navigation 
+       tag="""$tag$""" close=<<__close__>> class=<<__class__>> />
+   </div>
+</$list>
+</$set>
+\end
