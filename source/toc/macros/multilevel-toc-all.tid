@@ -1,0 +1,24 @@
+created: 20200227180558214
+modified: 20210928070214601
+tags: $:/tags/Macro/Toc
+title: $:/plugins/kookma/toc/macros/multilevel-toc-all
+type: text/vnd.tiddlywiki
+
+\define toc-all-body(here,exclude)
+<$list filter="""[tag[$here$]] $exclude$ -[[$here$]]""">
+  <li><$link/></li>
+  <$list filter="[tag<currentTiddler>]+[limit[1]]" variable=ignore>
+    <ol style="padding-left:1.5em">
+      <$macrocall $name="toc-all-body" here=<<currentTiddler>> exclude="""$exclude$ -[[$here$]]"""/>
+    </ol>
+</$list>
+</$list>
+\end
+
+\define toc-all(tag, exclude)
+<div class="kk-toc">
+  <ol>
+    <$macrocall $name="toc-all-body" here=<<__tag__>> exclude=<<__exclude__>> />
+  </ol>
+</div>
+\end

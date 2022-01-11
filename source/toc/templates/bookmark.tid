@@ -1,0 +1,27 @@
+created: 20191202151012761
+creator: EricShulman
+modified: 20210928070214655
+modifier: EricShulman
+title: $:/plugins/kookma/toc/templates/bookmark
+type: text/vnd.tiddlywiki
+
+\define bkm-is-bookmark() $(tidBookmarkConfig)$##$(currentTiddler)$
+\define bkm-emptystar()   &#x2606;
+\define bkm-filledstar()  &#x2605;
+\define bkm-tip-addbkm()  add '$(tiptext)$' to Bookmarks
+\define bkm-tip-rembkm()  remove '$(tiptext)$' from Bookmarks
+
+<!-- ADD/REMOVE ITEM FROM BOOKMARKS -->
+<$set name="tiptext" filter="[<currentTiddler>has[caption]]" value={{!!caption}} emptyValue={{!!title}}>
+<$reveal state=<<bkm-is-bookmark>> type="match" text="">
+   <$button class="tc-btn-invisible" tooltip=<<bkm-tip-addbkm>>>
+      <$action-setfield $tiddler=<<tidBookmarkConfig>> $index=<<currentTiddler>> $value=<<now>>/>
+      <span class="kk-bookmark"><<bkm-emptystar>></span>
+   </$button>
+</$reveal>
+<$reveal state=<<bkm-is-bookmark>> type="nomatch" text="">
+   <$button class="tc-btn-invisible kk-toc-btn" tooltip=<<bkm-tip-rembkm>>>
+      <$action-setfield    $tiddler=<<tidBookmarkConfig>> $index=<<currentTiddler>>/> <!-- DELETEINDEX -->
+      <span class="kk-bookmark.show"><<bkm-filledstar>></span>
+   </$button></$reveal>
+</$set>

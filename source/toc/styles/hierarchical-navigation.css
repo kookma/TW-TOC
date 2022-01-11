@@ -1,0 +1,8 @@
+.kk-toc-navigation{
+ font-weight: 600;
+}
+
+@media print {
+ .kk-toc-hideForPrint{display:none;}
+}
+  

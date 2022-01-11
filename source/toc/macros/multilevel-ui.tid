@@ -1,0 +1,56 @@
+created: 20200226221456462
+modified: 20210928070214607
+tags: $:/tags/Macro/Toc
+title: $:/plugins/kookma/toc/macros/multilevel-ui
+type: text/vnd.tiddlywiki
+
+\define show-mode()
+<$reveal type="nomatch" stateTitle=<<tidShowMode>> stateField="text" text="toc-show-item-authormode">
+<$button class="tc-btn-invisible kk-toc-btn" tooltip="switch to author mode">{{$:/core/images/edit-button}}
+<$action-setfield $tiddler=<<tidShowMode>>  text="toc-show-item-authormode"/>
+</$button>
+</$reveal>
+<$reveal type="match" stateTitle=<<tidShowMode>> stateField="text" text="toc-show-item-authormode">
+<$button class="tc-btn-invisible kk-toc-btn" tooltip="switch to reader mode">{{$:/core/images/done-button}}
+<$action-setfield $tiddler=<<tidShowMode>>  text="toc-show-item-readermode"/>
+</$button>
+</$reveal>
+\end
+
+\define remove-all-bookmarks()
+<$button class="tc-btn-invisible kk-toc-btn" tooltip="remove all bookmarks">&#x2606;
+<$list filter="[<tidBookmarkConfig>!is[missing]]" variable=ignore>
+<$action-deletetiddler $tiddler=<<tidBookmarkConfig>> />
+</$list>
+</$button>
+\end
+
+\define toggle-display-btnTools()
+<$list filter="[<tidShowTools>get[text]match[show]]"
+ emptyMessage="""<$action-setfield $tiddler=<<tidShowTools>> text="show"/>""">
+<$action-setfield $tiddler=<<tidShowTools>> text="hide"/>
+</$list>
+\end
+
+\define toc-manager-ui()
+<span class="kk-toc-tools-manager"> --- &nbsp;
+<$button class="tc-btn-invisible kk-toc-btn" tooltip="toggle tools buttons" actions=<<toggle-display-btnTools>>>
+{{$:/core/images/options-button}}
+</$button>
+<$reveal stateTitle=<<tidShowTools>> stateField=text text="show" type="match">
+<$macrocall $name="collapse-expand-all" here=<<__tag__>> exclude=<<__exclude__>> />
+<$reveal type=nomatch stateTitle=<<adminTid>> stateField="text" text="reader" default="author">
+<<show-mode>><!--only hide edit tools if adminTid tiddler text is reader-->
+</$reveal>
+<<remove-all-bookmarks>>
+</$reveal>
+</span>
+\end
+
+\define toc-ui(tag:"TableOfContents", exclude:"", stateTiddler:"multilevelState")
+<$set name=stateTiddler value=<<__stateTiddler__>> >
+<<toc-manager-ui>>
+<$macrocall $name=toc-tree here=<<__tag__>> exclude=<<__exclude__>> mode={{{[<tidShowMode>get[text]]}}} />
+</$set>
+\end
+

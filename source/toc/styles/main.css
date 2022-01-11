@@ -1,0 +1,65 @@
+/* these styles are used to customize the TOC tree and ui */
+/* toc tree lists */
+.kk-toc ol {
+  list-style-type: none;
+  padding-left:0;
+}
+.kk-toc  ol ol{
+  list-style-type: none;
+  padding-left:2em;
+}
+
+/* bold first level entry and normal weight for other levels */
+.kk-toc li    .tc-tiddlylink{font-weight: bold;}
+.kk-toc ol ol .tc-tiddlylink{font-weight:normal;}
+
+
+.kk-toc-item            { text-align:left; white-space:nowrap; } /* prevent wrapping long entries*/
+.kk-toc-item img        { height:1em; width:1em; }
+.kk-toc-item svg        { height:1em; width:1em;}
+
+/* More tools button fade-in */
+.kk-toc-item       .kk-toc-tools        { opacity:0.0; }
+.kk-toc-item:hover .kk-toc-tools        { opacity:0.5; }
+.kk-toc-item:hover .kk-toc-tools:hover  { opacity:1.0; }
+
+/* bookmark button fade-in*/
+.kk-toc-item       .kk-bookmark        { opacity:0.0; }
+.kk-toc-item:hover .kk-bookmark        { opacity:0.5; }
+.kk-toc-item:hover .kk-bookmark:hover  { opacity:1.0; }
+.kk-toc-item       .kk-bookmark.show   { opacity:1.0 !important; }
+
+/*  drag and drop elements */
+.kk-toc-placeholder{ position:relative; border:0 !important; border-bottom:1px dotted blue !important; }
+.kk-toc-dragtip    {
+   position:absolute; z-index:1; right:0.5em; top:0.5em; padding:0.25em 0.5em;
+   border:1px solid lightgray; box-shadow: 0.3em 0.3em 0.5em rgba(0,0,0,0.3);
+   background:white; text-align:center; font-size:80%; line-height:100%;
+}
+
+
+/* set color of links when toc is used in a sidebar tab*/
+.tc-sidebar-lists .kk-toc-item .tc-tiddlylink{color:#999999}
+.tc-sidebar-lists .kk-toc-item svg        { height:1em; width:1em; fill: #acacac;}
+
+/* item when are visited NOT in sidebar*/
+/*.kk-toc li  .tc-tiddlylink{color:black;}  selected or clicked item */
+.kk-toc-opened-item{ 
+	padding:0;
+	padding-left:5px; 
+	border-radius: unset;
+	border-left-width:2px; 
+	border-left-style:solid;}
+
+/* ui buttons on sidebar */
+.kk-toc button {outline:none;}
+.kk-toc-btn    {outline:none;}
+.tc-sidebar-lists  .kk-toc-btn svg { fill:  #acacac;}
+.tc-sidebar-lists  .kk-toc-btn     { color: #acacac;}
+
+
+
+
+/* manager buttons */
+.kk-toc-tools-manager        { opacity:0.5; }
+.kk-toc-tools-manager:hover  { opacity:1.0; }

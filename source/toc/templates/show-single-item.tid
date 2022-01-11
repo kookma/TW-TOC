@@ -1,0 +1,41 @@
+created: 20200225213226563
+modified: 20210928070214670
+title: $:/plugins/kookma/toc/templates/show-single-item
+type: text/vnd.tiddlywiki
+
+\define toc-show-menu()
+<!-- SHOW AUTHOR TOOLS AND BOOKMARK STAR -->
+<span class="kk-toc-tools"> {{||$:/plugins/kookma/toc/templates/more-actions}} </span>
+{{||$:/plugins/kookma/toc/templates/bookmark}}
+\end
+
+\define show-single-item()
+<$set name="openItemClass" filter="[<tidSelectedItem>get[text]match<item>]" value="tc-btn-invisible tc-tiddlylink kk-toc-opened-item" emptyValue="tc-btn-invisible tc-tiddlylink">
+<!--show the toggle branch button if the item is a branch -->
+<$list filter="[<is-branch>match[yes]]" variable=ignore><<toggle-branch>></$list>
+<$button class=<<openItemClass>> style="outline:none;" to=<<item>> dragTiddler=<<item>>>
+ <$tiddler tiddler=<<item>>><<toc_caption>></$tiddler>
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<item>> />  
+</$button>
+</$set>
+\end 
+
+<$reveal default=<<toc-show-mode>> type="match" text="toc-show-item-authormode" >
+<div class="kk-toc-item" title="drag to rearrange items">
+ <<show-single-item>>
+ <span style="float:right;margin-left:0.5em;"> <<toc-show-menu>> </span>
+ <div style="clear:both;"></div>
+</div>
+</$reveal>
+<$reveal default=<<toc-show-mode>> type="nomatch" text="toc-show-item-authormode" >
+<div class="kk-toc-item" title={{!!title}}>
+ <<show-single-item>>
+<!--1. comment to deactivate bookmarks in reader mode-->
+ <span style="float:right;margin-left:0.5em;">
+  {{||$:/plugins/kookma/toc/templates/bookmark}}
+ </span>
+ <div style="clear:both;"></div>
+<!--1. end -->
+</div>
+</$reveal>
+

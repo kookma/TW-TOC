@@ -1,5 +1,5 @@
-created: 20200126065458722
-modified: 20200221150353004
+created: 20210927161943365
+modified: 20210928070214590
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/multilevel-navigation
 type: text/vnd.tiddlywiki
@@ -11,8 +11,8 @@ type: text/vnd.tiddlywiki
 </$list>
 \end
 
-\define toc-hierarchical-navigation(tag:"", class, close:"no")
-<$wikify name="all" text="""<$macrocall $name="toc-list" here=<<__tag__>> />""">
+\define toc-hierarchical-navigation(tag:"", exclude:"", class, close:"no")
+<$wikify name="all" text="""<$macrocall $name="toc-list" here=<<__tag__>> exclude=<<__exclude__>> />""">
 <$vars  prev={{{ [enlist<all>before<currentTiddler>] }}} >
 <$vars  next={{{ [enlist<all>after<currentTiddler>]  }}}  >
 <div class="$class$">
@@ -36,12 +36,12 @@ type: text/vnd.tiddlywiki
 \end
 
 
-\define multilevel-toc-navigation(tag:"TableOfContents", close:"no", class:"", stateTiddler:"multilevelState")
+\define multilevel-toc-navigation(tag:"TableOfContents", exclude:"", close:"no", class:"", stateTiddler:"multilevelState")
 <$set name=stateTiddler value=<<__stateTiddler__>> >
 <$list filter="[<currentTiddler>!is[system]]">
    <div class="kk-toc-hideForPrint">
-     <$macrocall $name=toc-hierarchical-navigation 
-       tag="""$tag$""" close=<<__close__>> class=<<__class__>> />
+     <$macrocall $name="toc-hierarchical-navigation"
+       tag="""$tag$""" exclude=<<__exclude__>> close=<<__close__>> class=<<__class__>> />
    </div>
 </$list>
 </$set>

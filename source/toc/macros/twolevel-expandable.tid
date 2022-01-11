@@ -1,5 +1,5 @@
 created: 20200129073852901
-modified: 20200221123214609
+modified: 20210928070214620
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/twolevel-expandable
 type: text/vnd.tiddlywiki
@@ -15,7 +15,8 @@ type: text/vnd.tiddlywiki
 </$set>
 \end 
 
-\define twolevel-toc-slider(here, exclude)
+
+\define twolevel-toc-body(here, exclude)
 <$list filter="""[tag[$here$]] $exclude$ +[limit[1]]""" emptyMessage="""<li class="kk-toc-item" style="padding-left:1.2em"><$macrocall $name=twolevel-toc-show-single-item item=<<__here__>> /></li>""" variable=ignore>
 <li class="kk-toc-item">
 <$reveal type="nomatch" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
@@ -41,35 +42,44 @@ type: text/vnd.tiddlywiki
 
 
 \define twolevel-toc-tree(here, exclude)
-<div class="kk-toc">
+<div class="kk-toc" style="margin-top:-10px">
 <ol>
 <$list filter="""[tag[$here$]] $exclude$"""> 
-<$macrocall $name=twolevel-toc-slider here=<<currentTiddler>> exclude=<<__exclude__>> />
+<$macrocall $name=twolevel-toc-body here=<<currentTiddler>> exclude=<<__exclude__>> />
 </$list>
 </ol>
 </div>
 \end
 
+
 \define twolevel-toc-expand-all(here, exclude)
-<$button tooltip="expand all" class="tc-btn-invisible kk-toc" style="outline:none;">{{$:/core/images/unfold-button}}
 <$list filter="""[tag[$here$]] $exclude$"""> 
 <$list filter="[tag<currentTiddler>count[]!match[0]]" variable=ignore>
 <$action-setfield $tiddler=<<tidToggleState>>  $index=<<currentTiddler>> $value="yes"/>
 </$list>
 </$list>
-</$button>
 \end
 
-\define twolevel-toc-collapse-all()
-<$button tooltip="collapse all" class="tc-btn-invisible kk-toc" style="outline:none;">{{$:/core/images/fold-button}}
+
+\define twolevel-collapse-expand-all(here, exclude)
+<$reveal type="match" stateTitle=<<tidExpandAll>> stateField="text" text="expand-all">
+<$button tooltip="collapse all" class="tc-btn-invisible kk-toc-btn" style="outline:none;" tooltip="collapse all">{{$:/core/images/fold-button}}
 <$action-deletetiddler $tiddler=<<tidToggleState>> />
+<$action-setfield $tiddler=<<tidExpandAll>>  text="collapse-all"/>
 </$button>
+</$reveal>
+<$reveal type="nomatch" stateTitle=<<tidExpandAll>> stateField="text" text="expand-all">
+<$button tooltip="expand all" class="tc-btn-invisible kk-toc-btn" style="outline:none;">{{$:/core/images/unfold-button}}
+<$macrocall $name="twolevel-toc-expand-all" here=<<__here__>> exclude=<<__exclude__>> />
+<$action-setfield $tiddler=<<tidExpandAll>>  text="expand-all"/>
+</$button>
+</$reveal>
 \end
+
 
 \define twolevel-toc-expandable(tag:"Contents", exclude:"", stateTiddler:"twolevelState")
 <$set name=stateTiddler value=<<__stateTiddler__>> >
-<$macrocall $name=twolevel-toc-expand-all  here=<<__tag__>> exclude=<<__exclude__>>  />
-<$macrocall $name=twolevel-toc-collapse-all                                          />
-<$macrocall $name=twolevel-toc-tree       here=<<__tag__>> exclude=<<__exclude__>>   />
+<$macrocall $name=twolevel-collapse-expand-all  here=<<__tag__>> exclude=<<__exclude__>>  />
+<$macrocall $name=twolevel-toc-tree  here=<<__tag__>> exclude=<<__exclude__>>   />
 </$set>
 \end
