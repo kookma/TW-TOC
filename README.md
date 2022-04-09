@@ -7,6 +7,9 @@ TOC plugin contains several macros, stylesheets and templates to create table of
 * hierarchical navigation
 * recursive multi level toc
 * exclude feature to exclude a branch or specific entries
+* outline view (rearrange by drag and drop)
+* author mode and reader mode
+
 
 
 

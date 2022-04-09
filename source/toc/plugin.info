@@ -3,7 +3,7 @@
     "name": "Toc",
     "description": "Table of contents and navigation builder",
     "author": "Mohammad Rahmani",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "core-version": ">=5.1.21",
     "source": "https://github.com/kookma/TOC",
     "list": "readme license history",

@@ -1,5 +1,5 @@
 created: 20200225205504695
-modified: 20210928070214569
+modified: 20220409153742590
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/multilevel-draggable
 type: text/vnd.tiddlywiki
@@ -17,7 +17,7 @@ type: text/vnd.tiddlywiki
 
 \define toc_caption()
 <$transclude field="caption">
-   <$view field="title"/>
+   <$view field="title" format="plainwikified"/>
 </$transclude>
 \end
 
@@ -40,7 +40,7 @@ type: text/vnd.tiddlywiki
 
 \define toc-item-drop()
 <$reveal default=<<actionTiddler>> type="nomatch" text=<<item>>> <!-- DON'T DROP ON SELF -->
-   <!-- get OLDTAG and NEWTAG, exclude special TiddlyBook tags -->
+   <!-- get OLDTAG and NEWTAG, exclude special tags -->
    <$vars sourcepath={{{ [<toc-item-dragdata-path>get[text]] }}}
           targetpath=<<path>> >
    <$vars oldtag= {{{ [<sourcepath>split[/]]-[<actionTiddler>]+[last[]]  }}}

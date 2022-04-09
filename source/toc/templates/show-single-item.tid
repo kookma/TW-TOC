@@ -1,5 +1,6 @@
 created: 20200225213226563
-modified: 20210928070214670
+modified: 20220409143650731
+tags: show-content
 title: $:/plugins/kookma/toc/templates/show-single-item
 type: text/vnd.tiddlywiki
 
@@ -13,7 +14,7 @@ type: text/vnd.tiddlywiki
 <$set name="openItemClass" filter="[<tidSelectedItem>get[text]match<item>]" value="tc-btn-invisible tc-tiddlylink kk-toc-opened-item" emptyValue="tc-btn-invisible tc-tiddlylink">
 <!--show the toggle branch button if the item is a branch -->
 <$list filter="[<is-branch>match[yes]]" variable=ignore><<toggle-branch>></$list>
-<$button class=<<openItemClass>> style="outline:none;" to=<<item>> dragTiddler=<<item>>>
+<$button class=<<openItemClass>> style="outline:none;" to=<<item>> >
  <$tiddler tiddler=<<item>>><<toc_caption>></$tiddler>
 <$action-setfield $tiddler=<<tidSelectedItem>> text=<<item>> />  
 </$button>

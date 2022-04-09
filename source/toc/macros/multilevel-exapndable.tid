@@ -1,5 +1,5 @@
 created: 20200129100032272
-modified: 20210928070214581
+modified: 20220409143456712
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/multilevel-exapndable
 type: text/vnd.tiddlywiki
@@ -9,7 +9,7 @@ type: text/vnd.tiddlywiki
 <$droppable actions=<<toc-item-drop>>>
 	<div class="tc-droppable-placeholder kk-toc-placeholder"></div> 
 	<$draggable tiddler=<<item>> startactions=<<toc-item-dragstart>> endactions=<<toc-item-dragend>> dragimagetype="blank">
-	{{$item$||$(tidTocTemplate)$}}
+ 	{{$item$||$(tidTocTemplate)$}}
 	</$draggable>
 	<div class="tc-droppable-placeholder kk-toc-placeholder"><<toc-item-dragtip>></div> 
 </$droppable>
