@@ -1,5 +1,5 @@
 created: 20210927161943365
-modified: 20210928070214590
+modified: 20230216134731484
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/multilevel-navigation
 type: text/vnd.tiddlywiki
@@ -12,28 +12,32 @@ type: text/vnd.tiddlywiki
 \end
 
 \define toc-hierarchical-navigation(tag:"", exclude:"", class, close:"no")
+\define prev-actions()
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<prevTiddler>> />  
+<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
+\end prev-actions
+
+\define next-actions()
+<$action-setfield $tiddler=<<tidSelectedItem>> text=<<nextTiddler>> />  
+<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
+\end next-actions
+
 <$wikify name="all" text="""<$macrocall $name="toc-list" here=<<__tag__>> exclude=<<__exclude__>> />""">
 <$vars  prev={{{ [enlist<all>before<currentTiddler>] }}} >
 <$vars  next={{{ [enlist<all>after<currentTiddler>]  }}}  >
 <div class="$class$">
 <$list filter="[<prev>!is[missing]]" variable="prevTiddler">
-<$button to=<<prevTiddler>> tooltip=<<prevTiddler>> class="tc-btn-invisible $class$">previous
-<$action-setfield $tiddler=<<tidSelectedItem>> text=<<prevTiddler>> />  
-<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
-</$button>
+<$button to=<<prevTiddler>> tooltip=<<prevTiddler>> class="tc-btn-invisible $class$" actions=<<prev-actions>> >previous</$button>
 </$list>
 <$list filter="[<next>!is[missing]] [<prev>!is[missing]] +[count[]] -1 -0" variable=ignore>|</$list>
 <$list filter="[<next>!is[missing]]" variable="nextTiddler">
-<$button to=<<nextTiddler>> tooltip=<<nextTiddler>> class="tc-btn-invisible $class$">next
-<$action-setfield $tiddler=<<tidSelectedItem>> text=<<nextTiddler>> />  
-<$list filter="[<__close__>match[yes]]" variable=ignore><$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>>/></$list>
-</$button>
+<$button to=<<nextTiddler>> tooltip=<<nextTiddler>> class="tc-btn-invisible $class$" actions=<<next-actions>> >next</$button>
 </$list>
 </div>
 </$vars>
 </$vars>
 </$wikify>
-\end
+\end toc-hierarchical-navigation
 
 
 \define multilevel-toc-navigation(tag:"TableOfContents", exclude:"", close:"no", class:"", stateTiddler:"multilevelState")
@@ -41,7 +45,7 @@ type: text/vnd.tiddlywiki
 <$list filter="[<currentTiddler>!is[system]]">
    <div class="kk-toc-hideForPrint">
      <$macrocall $name="toc-hierarchical-navigation"
-       tag="""$tag$""" exclude=<<__exclude__>> close=<<__close__>> class=<<__class__>> />
+       tag=<<__tag__>> exclude=<<__exclude__>> close=<<__close__>> class=<<__class__>> />
    </div>
 </$list>
 </$set>
