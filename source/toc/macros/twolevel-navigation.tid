@@ -3,13 +3,14 @@ title: $:/plugins/kookma/toc/macros/twolevel-navigation
 type: text/vnd.tiddlywiki
 
 \define twolevel-toc-list(here, exclude)
-<$list filter="""[tag[$here$]] $exclude$"""> 
-<$text text="[["/><<currentTiddler>><$text text="]]"/>
-  <$list filter="""[tag<currentTiddler>] $exclude$""">
-    <$text text="[["/><<currentTiddler>><$text text="]]"/>
+<$list filter="""[tag[$here$]][<__exclude__>]"""> 
+  <$text text={{{ [<currentTiddler>format:titlelist[]]  }}}/>
+  <$list filter="""[tag<currentTiddler>] [<__exclude__>]""">
+    <$text text={{{ [<currentTiddler>format:titlelist[]]  }}}/>
   </$list>
 </$list>
 \end
+
 
 \define twolevel-toc-hierarchical-navigation(tag:"", class, exclude:"", close:"no")
 \define prev-actions()

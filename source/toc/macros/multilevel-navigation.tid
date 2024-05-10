@@ -3,7 +3,7 @@ title: $:/plugins/kookma/toc/macros/multilevel-navigation
 type: text/vnd.tiddlywiki
 
 \define toc-list(here,exclude)
-<$list filter="""[tag[$here$]] $exclude$ -[[$here$]]""">
+<$list filter="""[tag[$here$]] [subfilter<__exclude__>] -[<__here__>]""">
    <$text text="[["/><<currentTiddler>><$text text="]]"/>
    <$macrocall $name="toc-list" here=<<currentTiddler>> exclude="""$exclude$ -[[$here$]]"""/>
 </$list>
