@@ -2,6 +2,9 @@ tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/twolevel-expandable
 type: text/vnd.tiddlywiki
 
+\define toc-open-icon() $:/core/images/down-arrow
+\define toc-closed-icon() $:/core/images/right-arrow
+
 \define twolevel-toc-show-single-item(item)
 <$set name="openItemClass" filter="[<tidSelectedItem>get[text]match<__item__>]" value="tc-btn-invisible kk-toc-opened-item" emptyValue="tc-btn-invisible tc-tiddlylink">
 <$button class=<<openItemClass>> style="outline:none;" to=<<__item__>> dragTiddler=<<__item__>>>
@@ -19,12 +22,12 @@ type: text/vnd.tiddlywiki
 <li class="kk-toc-item">
 <$reveal type="nomatch" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
   <$button class="tc-btn-invisible tc-tiddlylink" style="outline:none;" setTitle=<<tidToggleState>> setIndex=<<__here__>> setTo="yes">
-   {{$:/core/images/right-arrow}}
+      <$transclude tiddler=<<toc-closed-icon>> />
   </$button>
  </$reveal>
  <$reveal type="match" stateTitle=<<tidToggleState>> stateIndex=<<__here__>> text="yes">
   <$button class="tc-btn-invisible tc-tiddlylink" style="outline:none;" setTitle=<<tidToggleState>> setIndex=<<__here__>> setTo="no">
-   {{$:/core/images/down-arrow}}
+      <$transclude tiddler=<<toc-open-icon>> />
   </$button>
  </$reveal>
 <$macrocall $name=twolevel-toc-show-single-item item=<<__here__>> />

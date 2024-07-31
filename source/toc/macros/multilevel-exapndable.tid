@@ -1,6 +1,10 @@
+modified: 20240731133548160
 tags: $:/tags/Macro/Toc
 title: $:/plugins/kookma/toc/macros/multilevel-exapndable
 type: text/vnd.tiddlywiki
+
+\define toc-open-icon() $:/core/images/down-arrow
+\define toc-closed-icon() $:/core/images/right-arrow
 
 \define toc-show-item-authormode(item, is-branch:no)
 <$vars item=<<__item__>> is-branch=<<__is-branch__>> >
@@ -24,12 +28,12 @@ type: text/vnd.tiddlywiki
 \define toggle-branch()
 <$reveal type="nomatch" stateTitle=<<tidToggleState>> stateIndex=<<path>> text="yes">
   <$button class="tc-btn-invisible" setTitle=<<tidToggleState>> setIndex=<<path>> setTo="yes">
-   {{$:/core/images/right-arrow}}
+   <$transclude tiddler=<<toc-closed-icon>> />
   </$button>
  </$reveal>
  <$reveal type="match" stateTitle=<<tidToggleState>> stateIndex=<<path>> text="yes">
   <$button class="tc-btn-invisible" setTitle=<<tidToggleState>> setIndex=<<path>> >
-   {{$:/core/images/down-arrow}}
+	 <$transclude tiddler=<<toc-open-icon>> />
   </$button>
  </$reveal>
 \end 
